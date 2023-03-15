@@ -10,29 +10,30 @@ http
       //index
       fs.readFile("./index.html", (err, data) => {
         if (err) {
-          read404(res);
+          return res.end(read404(res));
         } else {
           res.writeHead(200, { "Content-Type": "text/html" });
           res.write(data);
           return res.end();
         }
       });
+    } else {
+      fs.readFile(`${filename}.html`, (err, data) => {
+        if (err) {
+          return res.end(read404(res));
+        } else {
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.write(data);
+        }
+        return res.end();
+      });
     }
-    fs.readFile(filename, (err, data) => {
-      if (err) {
-        read404(res);
-      } else {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.write(data);
-      }
-      return res.end();
-    });
   })
   .listen(8080);
 
 function read404(res) {
   fs.readFile("./404.html", (err, data) => {
     res.writeHead(404, { "Content-Type": "text/html" });
-    return res.end(data);
+    return data;
   });
 }
