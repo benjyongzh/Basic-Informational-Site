@@ -22,8 +22,7 @@ app.get("/contact-me", (req, res) => {
   res.sendFile(path.join(__dirname, "/contact-me.html"));
 });
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
+app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "/404.html"));
 });
 
